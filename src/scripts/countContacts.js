@@ -1,16 +1,15 @@
-import fs from 'node:fs/promises';
+import { readContacts } from '../utils/readContacts.js';
 
 export const countContacts = async () => {
   try {
-    const data = await fs.readFile('src/db/db.json', 'utf-8');
-    const contacts = JSON.parse(data);
+    const contacts = (await readContacts()) || [];
 
     const contactCount = contacts.length;
     console.log('Количество контактов:', contactCount);
-    return contacts;
+    return contactCount;
   } catch (error) {
     console.error('Ошибка при получении контактов:', error);
-    return [];
+    return 0;
   }
 };
 
